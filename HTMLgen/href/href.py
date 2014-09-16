@@ -1,7 +1,16 @@
+""" The only difference between this and the previous version is that
+this works with Python3.
+"""
+
+
 class Href:
 
-    """The first Href class.  Totally strightforward.  Totally boring.
-    The only kind you can write in Java. """
+    """ 
+    A constructor in the spirit of Java:
+    All parameters are required.
+    The constructor simply uses the arguments to establish
+    the state of the object.
+    """
 
     def __init__(self,
                  target,
@@ -27,8 +36,6 @@ class Href:
         s.append('>%s</A>' % self.text)
         return ''.join(s)
 
-A = Href
-
 link = Href(None,
             None,
             None,
@@ -36,5 +43,4 @@ link = Href(None,
             url = 'http://www.sandiego.edu',
             text = 'USD')
 
-
-print link
+print(link)
