@@ -1,50 +1,30 @@
-"""In this third version, each instance has only attibutes that
-it actually needs.
+"""
 
-Note that <link>.<attribute> must resolve to an object, otherwise
-__str__ would raise an exception.  Therefore, if <attribute> is not in
-<link>'s namespace, it should be in Href's.
+This is a quantum leap from the previous version.  Note that the long
+list of arguments in the definition of the initializer disappears, and
+so does the equally long block of the if statements.
 
-An eye sore of this version is that the number of the if statements
-grows linearly as the number of the arguments.  So, in the case of
-the Table class, we might have 40+ if statements.
+It is amazing that no matter how many attributes the class uses, the size of its initializer remains a constant.
 
 """
 
 class Href:
 
-    onClick = None
-    onMouseOver = None
-    onMouseOut = None
-    target = None
-
+    target=None
+    onClick=None
+    onMouseOver=None
+    onMouseOut=None
 
     def __init__(self,
-                 target=None,
-                 onClick=None,
-                 onMouseOver=None,
-                 onMouseOut=None,
-                 url='http://www.sandiego.edu',
-                 text='USD'):
-        if target: # if user passes in non-trivial values, then create
-                   # an instance variable
-                   self.target = target
+                 url,
+                 text,
+                 **kw):
 
-        if onClick: # if user passes in non-trivial values, then create
-                   # an instance variable
-                   self.onClick = onClick
-        if onMouseOver:
-            self.onMouseOver = onMouseOver
+        self.url = url
+        self.text = text
 
-        if onMouseOut:
-            self.onMouseOut = onMouseOut 
-
-        if url:
-            self.url = url
-
-        if text:
-            self.text = text
-
+        for key in kw:
+            setattr(self, key, kw[key])
 
     def __str__(self):
         s = ['<A HREF="%s"' % self.url]
@@ -55,6 +35,5 @@ class Href:
         s.append('>%s</A>' % self.text)
         return ''.join(s)
 
-usd = Href(text='UCSD', url='http://ucsd.edu', target='_blank')
-print(usd)
-print(vars(usd))
+ucsd = Href(text='UCSD', url='http://ucsd.edu', target='_blank')
+print(ucsd)
