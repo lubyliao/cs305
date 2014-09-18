@@ -1,21 +1,23 @@
+"""In this third version, each instance has only attibutes that
+it actually needs.
+
+Note that <link>.<attribute> must resolve to an object, otherwise
+__str__ would raise an exception.  Therefore, if <attribute> is not in
+<link>'s namespace, it should be in Href's.
+
+An eye sore of this version is that the number of the if statements
+grows linearly as the number of the arguments.  So, in the case of
+the Table class, we might have 40+ if statements.
+
+"""
+
 class Href:
 
-    """The only difference between this and the previous version is that it
-    uses default arguments.
+    onClick = None
+    onMouseOver = None
+    onMouseOut = None
+    target = None
 
-    The definition of the initilizer remains hard to write and ugly,
-    but it becomes so much easier to call, because client code can omit
-    any arguments that it does not use.
-
-    The structure of the Href objects created using both versions remain unchanged.
-
-    Note that similar to Java, all Href instances have the same set
-    and same number of attributes, even when some are not being used.
-
-    Can this be avoided?  That is, is it possible for an instance to not have an
-    attribute that it does not really need, such as target?
-
-    """
 
     def __init__(self,
                  target=None,
@@ -24,12 +26,25 @@ class Href:
                  onMouseOut=None,
                  url='http://www.sandiego.edu',
                  text='USD'):
-        self.target = target
-        self.onClick = onClick 
-        self.onMouseOver = onMouseOver
-        self.onMouseOut = onMouseOut 
-        self.url = url
-        self.text = text
+        if target: # if user passes in non-trivial values, then create
+                   # an instance variable
+                   self.target = target
+
+        if onClick: # if user passes in non-trivial values, then create
+                   # an instance variable
+                   self.onClick = onClick
+        if onMouseOver:
+            self.onMouseOver = onMouseOver
+
+        if onMouseOut:
+            self.onMouseOut = onMouseOut 
+
+        if url:
+            self.url = url
+
+        if text:
+            self.text = text
+
 
     def __str__(self):
         s = ['<A HREF="%s"' % self.url]
@@ -40,8 +55,6 @@ class Href:
         s.append('>%s</A>' % self.text)
         return ''.join(s)
 
-usd = Href(text='UCSD',
-            url='http://ucsd.edu',
-            target='_blank')
-
+usd = Href(text='UCSD', url='http://ucsd.edu', target='_blank')
 print(usd)
+print(vars(usd))
