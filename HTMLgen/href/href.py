@@ -1,31 +1,35 @@
-""" The only difference between this and the previous version is that
-this works with Python3.
-"""
-
-
 class Href:
 
-    """ 
-    A constructor in the spirit of Java:
-    All parameters are required.
-    The constructor simply uses the arguments to establish
-    the state of the object.
+    """The only difference between this and the previous version is that it
+    uses default arguments.
+
+    The definition of the initilizer remains hard to write and ugly,
+    but it becomes so much easier to call, because client code can omit
+    any arguments that it does not use.
+
+    The structure of the Href objects created using both versions remain unchanged.
+
+    Note that similar to Java, all Href instances have the same set
+    and same number of attributes, even when some are not being used.
+
+    Can this be avoided?  That is, is it possible for an instance to not have an
+    attribute that it does not really need, such as target?
+
     """
 
     def __init__(self,
-                 target,
-                 onClick,
-                 onMouseOver,
-                 onMouseOut,
-                 url,
-                 text):
+                 target=None,
+                 onClick=None,
+                 onMouseOver=None,
+                 onMouseOut=None,
+                 url='http://www.sandiego.edu',
+                 text='USD'):
         self.target = target
         self.onClick = onClick 
         self.onMouseOver = onMouseOver
         self.onMouseOut = onMouseOut 
         self.url = url
         self.text = text
-
 
     def __str__(self):
         s = ['<A HREF="%s"' % self.url]
@@ -36,11 +40,8 @@ class Href:
         s.append('>%s</A>' % self.text)
         return ''.join(s)
 
-link = Href(None,
-            None,
-            None,
-            None,
-            url = 'http://www.sandiego.edu',
-            text = 'USD')
+usd = Href(text='UCSD',
+            url='http://ucsd.edu',
+            target='_blank')
 
-print(link)
+print(usd)
