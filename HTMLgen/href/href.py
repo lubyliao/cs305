@@ -1,30 +1,32 @@
 """
+Last version was incorrect because Href's initializer will allow
+creation of meaningless attributes. 
 
-This is a quantum leap from the previous version.  Note that the long
-list of arguments in the definition of the initializer disappears, and
-so does the equally long block of the if statements.
-
-It is amazing that no matter how many attributes the class uses, the size of its initializer remains a constant.
+This version corrects the error of the last version.
 
 """
 
 class Href:
 
-    target=None
-    onClick=None
-    onMouseOver=None
-    onMouseOut=None
+    target = None
+    onClick = None
+    onMouseOver = None
+    onMouseOut = None
 
     def __init__(self,
-                 url,
-                 text,
+                 url='',
+                 text='',
                  **kw):
-
+        
         self.url = url
         self.text = text
 
-        for key in kw:
-            setattr(self, key, kw[key])
+        for attr in kw:
+            try:
+                getattr(self, attr) # see if self  knows about attr
+                setattr(self, attr, kw[attr])
+            except:
+                raise KeyError("You provide an argument %s that makes no sense" % attr)
 
     def __str__(self):
         s = ['<A HREF="%s"' % self.url]
@@ -35,5 +37,8 @@ class Href:
         s.append('>%s</A>' % self.text)
         return ''.join(s)
 
-ucsd = Href(text='UCSD', url='http://ucsd.edu', target='_blank')
-print(ucsd)
+usd = Href('http://www.sandiego.edu', 'University of San diego', target='_blank')
+print(usd)
+
+ucsd = Href('http://ucsd.edu', 'UCSD', age =40) # Exception!
+
