@@ -1,20 +1,12 @@
-"""
-Version 2: Factoring *intersection* into the superclass Set
+""" Version 3: replacing the N-factory methods with one factory function. """ 
 
-To do this, we use a method *add* and a factory method *new* in each concreate subclass.
-
-*intersection* is an excellent example of a template method which
-describe the logic of an algorithm while delegating details of how
-things work, e.g., *new* and *add* to subclasses.
-
-*s.add(x)* is an example of a down call, which calls *add* in a subclass.
-Note that *add* is not and need not be defined in *Set* 
-
-"""
+def new(C, *args, **kw):
+        return C(*args, **kw)
 
 class Set:
+
         def intersection(self, other):
-                s = self.new()
+                s = new(type(self))
                 for x in self.rep:
                         if x in other.rep:
                                 s.add(x)
@@ -26,9 +18,6 @@ class DictSet(Set):
                 for element in elements:
                         rep[element] = element
 
-        def new(self):
-                return DictSet()
-                        
         def add(self, x):
                 self.rep[x] = x
 
@@ -38,8 +27,6 @@ class ListSet(Set):
                 for element in elements:
                         if element not in rep:
                                 rep.append(element)
-        def new(self):
-                return ListSet()
 
         def add(self, x):
                 self.rep.append(x)
